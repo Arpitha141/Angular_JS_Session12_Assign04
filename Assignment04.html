@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html ng-app="MyModule">
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="../../scripts/angular.js"></script>
+</head>
+<body>
+
+    <script>
+        var module = angular.module("MyModule", []);
+
+        module.controller("MyController", function ($scope) {
+            $scope.Books = [
+             { bookid: 1, bookname: 'Pro Angular', Publisher: 'APress', Price: 500.00 },
+               { bookid: 2, bookname: 'ASP.NET Complete Reference', Publisher: 'Tata MacGraw Hill', Price: 900.00 },
+               { bookid: 3, bookname: 'Pro C# 3.0', Publisher: 'APress', Price: 850.00 },
+               { bookid: 4, bookname: 'Angular JS Essentials', Publisher: 'Tata MacGraw Hill', Price: 900.00 },
+               { bookid: 5, bookname: 'Linux Complete Reference', Publisher: 'Tata MacGraw Hill', Price: 550.56 },
+               { bookid: 6, bookname: 'Pro WCF', Publisher: 'APress', Price: 650.00 },
+               { bookid: 7, bookname: 'ASP.NET 5.0 Professional', Publisher: 'WROX', Price: 750.20 },
+               { bookid: 8, bookname: 'ASP.NET MVC 4.0 Professional', Publisher: 'WROX', Price: 920.00 },
+               { bookid: 9, bookname: 'Java 8 Complete Reference', Publisher: 'Tata MacGraw Hill', Price: 540.00 },
+               { bookid: 10, bookname: 'Pro WPF 4.5', Publisher: 'APress', Price: 999.00 }
+            ];
+        });
+
+ 
+        module.filter("myCustomFilter", function () {
+            console.log("My Custom Filter called");
+
+            return function (input) {
+
+                return "Rs." + input;
+            };
+        });
+
+       module.filter("myCustom", function () {
+            return function (input, discount) {
+               
+                var discount1 = (input / 100) * discount;
+                var discountedprice = input - discount1;
+
+                return " The discounted Price::" + discountedprice;
+            };
+
+        });
+
+      
+    </script>
+
+    <div ng-controller="MyController">
+        <table border="1">
+           
+            <thead>
+                <tr>
+                    <th>Book Id</th>
+                    <th>Book Name</th>
+                    <th>Publisher</th>
+                    <th>Price</th>
+                    <th>Discount price over 2 yesr </th>
+                </tr>
+            </thead>
+
+            <tr ng-repeat="b in Books ">
+                <td align="center">{{b.bookid}}</td>
+                <td align="center">{{b.bookname}}</td>
+                <td align="center">{{b.Publisher | uppercase}}</td>
+                <td align="center">{{b.Price | number:2  | myCustomFilter}}</td>
+                <td align="center">{{b.Price  | myCustom:5  }}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
